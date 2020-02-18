@@ -2,15 +2,33 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title>Lesson2</title> 
+    <title>Lesson3</title> 
 </head>
 <body>
-    <script>
-        let MyUserName = "Galina Todorashko";
-        let MyAge = 35;
-        let MsgText = "Hello, my name is "+ MyUserName + ". I'm " + MyAge + " years old."; 
-        alert(MsgText);
-    </script>    
     <h1>Hello World</h1>
+    <script>
+        "use strict";
+        let myName=prompt("Enter your name","Galina");
+        let myAge=prompt("Enter your age",35);
+        let isAclohol=confirm("Алкоголь употребляем?");
+        
+        if (isAclohol==true) {
+            if (myAge>40) {
+                alert (myName+" не злоупотребляйте");
+            }
+            else if (myAge<18){
+                alert (myName + " ты что?! Маме расскажу!");
+                }
+                else {
+                alert (myName + " только водку с пивом не мешай...");
+                }   
+                
+        }
+        else {
+            alert (myName + " так держать!");
+        }
+        
+    </script>    
+    
 </body>
 </html>
