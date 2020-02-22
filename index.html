@@ -2,32 +2,49 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title>Lesson3</title> 
+    <title>Lesson4</title> 
 </head>
 <body>
-    <h1>Hello World</h1>
+    <h1>Fir-Tree</h1>
+   
     <script>
-        "use strict";
+        'use strict';
         
-        let myName = prompt("Enter your name", "Galina");
-        let myAge = prompt("Enter your age", 35);
-        let isAclohol = confirm("Алкоголь употребляем?");
+        let myNum = prompt('Введите целое число', '');
+        let isNum; 
+        let isNotNull;
+        let triangle ='';        
+               
+         if ( !isNaN(myNum) ) {   
+             if ( (Number.isInteger(Number(myNum))) ) { 
+                isNum = true;                
+             } 
+             else {
+                isNum = false;
+                alert(myNum + ' не является целым числом'); 
+             }
+         }
+         else{
+            alert(myNum + ' не является числом'); 
+            isNum = false;            
+         } 
         
-        if (isAclohol) {
-            if (myAge > 40) {
-                alert (myName+" не злоупотребляйте");
-            }
-            else if (myAge < 18){
-                alert (myName + " ты что?! Маме расскажу!");
-                }
-            else {
-                alert (myName + " только водку с пивом не мешай...");
-                }   
-            }
-        else {
-            alert (myName + " так держать!");
-        }      
-        
+         if ( !(myNum===null) && !(myNum==='') ) {
+            isNotNull = true;
+         }
+         else{
+            alert('Нужно ввести целое число');
+            isNotNull= false            
+         }
+
+    if (isNum && isNotNull) {
+      for (let i = 0; i < myNum; i++) {
+        triangle += '*';
+        console.log(triangle);                         
+      } 
+           
+    } 
+    
 </script>    
     
 </body>
