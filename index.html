@@ -8,15 +8,16 @@
     <h1>Hello World</h1>
     <script>
         "use strict";
-        let myName=prompt("Enter your name","Galina");
-        let myAge=prompt("Enter your age",35);
-        let isAclohol=confirm("Алкоголь употребляем?");
         
-        if (isAclohol==true) {
-            if (myAge>40) {
+        let myName = prompt("Enter your name", "Galina");
+        let myAge = prompt("Enter your age", 35);
+        let isAclohol = confirm("Алкоголь употребляем?");
+        
+        if (isAclohol) {
+            if (myAge > 40) {
                 alert (myName+" не злоупотребляйте");
             }
-            else if (myAge<18){
+            else if (myAge < 18){
                 alert (myName + " ты что?! Маме расскажу!");
                 }
             else {
