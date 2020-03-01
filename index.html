@@ -5,45 +5,103 @@
     <title>Lesson4</title> 
 </head>
 <body>
-    <h1>Fir-Tree</h1>
-   
+    <h1>Lesson 5. Functions</h1>
+    <div id="textCalc"></div>
+    
     <script>
         'use strict';
-        
-        let myNum = prompt('Введите целое число', '');
-        let isNum; 
-        let isNotNull;
-        let triangle ='';        
-               
-         if ( !isNaN(myNum) ) {   
-             if ( (Number.isInteger(Number(myNum))) ) { 
-                isNum = true;                
-             } 
-             else {
-                isNum = false;
-                alert(myNum + ' не является целым числом'); 
-             }
-         }
-         else{
-            alert(myNum + ' не является числом'); 
-            isNum = false;            
-         } 
-        
-         if ( !(myNum===null) && !(myNum==='') ) {
-            isNotNull = true;
-         }
-         else{
-            alert('Нужно ввести целое число');
-            isNotNull= false            
-         }
 
-    if (isNum && isNotNull) {
-      for (let i = 0; i < myNum; i++) {
-        triangle += '*';
-        console.log(triangle);                         
-      }            
-    } 
-    
+        function getUserData() {
+           const radiusValue = +prompt('Введите пожайлуста значение радиуса', '');
+           const num1 = +prompt('Введите пожайлуста целое число', '');
+           const num2 = +prompt('Введите пожайлуста еще одно целое число', '');
+           const oper = prompt('Введите пожалуйста арифметическое действие, например - или + или /', '');
+           
+           return {
+            radiusValue: radiusValue,
+            num1: num1,
+            num2: num2,
+            oper: oper
+           };
+       }
+                        
+      
+        function getAreaCircle(radiusVal) {
+           if (typeof radiusVal === 'number') {
+            return radiusVal ** 2 * Math.PI; 
+           }                               
+        }
+
+        function getCircumFerence(radiusVal){
+         if (typeof radiusVal === 'number') {
+               return 2 * radiusVal * Math.PI;
+            }
+        }
+
+        function getAverage(number1, number2) {
+               return (number1 + number2) / 2;
+        }
+
+        function calcOper(number1, number2, oper) {
+         if (oper === '+') {
+            return number1 + number2;
+         }
+         else if (oper === '-') {
+            return number1 - number2;
+         }
+         else if (oper === '*') {
+            return number1 * number2;
+         }
+         else if (oper === '/') {
+            return number1 / number2;
+         }  
+        }
+       
+      function checkData (data) {              
+         if (typeof data.radiusValue === 'number' && typeof data.num1 === 'number' && typeof data.num2 === 'number' && data.oper === 'string') {
+                 return true;                
+                 } else {
+                    return alert ('Введены не числа. Введите пож числа');
+                 }
+      }
+      
+         
+      function printCalc () {         
+                       
+        let obj = getUserData(); 
+       
+        const areaCircle = getAreaCircle(obj.radiusValue).toFixed(2); //площадь круга
+        const circumFerence = getCircumFerence(obj.radiusValue).toFixed(2); //длина окружности
+        const average = getAverage(obj.num1,obj.num2); //среднее арифм
+        const resOper = calcOper(obj.num1,obj.num2,obj.oper); // арифм действие
+
+        const textAreaCircle = '1) Площадь круга при R=' + obj.radiusValue + ' равна ' + areaCircle;
+        const textCircumFerence = '2) Длина окружности при R=' + obj.radiusValue + ' равна  ' + circumFerence;
+        const textAverage = '3) Среднее арифметическое ' + obj.num1 + ' и ' + obj.num2 + '=' + average;
+        const textResOper = '4) Вычисление '+ obj.num1 + String(obj.oper) + obj.num2 + '=' + resOper;
+        
+        let textObj = 'Радиус: ' + obj.radiusValue + ';'; 
+        textObj += ' Число №1: ' + obj.num1 + ';';
+        textObj += ' Число №2: ' + obj.num2 + ';'
+        textObj += ' Действие: ' + obj.oper + ';';
+        
+        textCalc.insertAdjacentHTML('afterbegin', '<p>' + textResOper + '</p>');
+        textCalc.insertAdjacentHTML('afterbegin', '<p>' + textAverage + '</p>');
+        textCalc.insertAdjacentHTML('afterbegin', '<p>' + textCircumFerence + '</p>');
+        textCalc.insertAdjacentHTML('afterbegin', '<p>' + textAreaCircle + '</p>');
+        textCalc.insertAdjacentHTML('afterbegin', '<p>' + textObj + '</p>');
+        
+        console.log(obj);
+        console.log(textAreaCircle);
+        console.log(textCircumFerence);
+        console.log(textAverage);
+        console.log(textResOper);
+            
+      }
+               
+      printCalc();
+       
+                
 </script>    
     
 </body>
