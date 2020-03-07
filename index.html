@@ -2,105 +2,124 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title>Lesson5</title> 
+    <title>Lesson6</title> 
 </head>
 <body>
-    <h1>Lesson 5. Functions</h1>
-    <div id="textCalc"></div>
+    <h1>Lesson 6. Work with functions</h1>
+    <div id="textlesson"></div>
 
     <script>
         'use strict';
 
-        function getUserData() {
-           const radiusValue = +prompt('Введите пожайлуста значение радиуса', '');
-           const num1 = +prompt('Введите пожайлуста целое число', '');
-           const num2 = +prompt('Введите пожайлуста еще одно целое число', '');
-           const oper = prompt('Введите пожалуйста арифметическое действие, например - или + или /', '');
-           
-           return {
-            radiusValue: radiusValue,
-            num1: num1,
-            num2: num2,
-            oper: oper
-           };
-       }
-                        
-      
-        function getAreaCircle(radiusVal) {
-           if (typeof radiusVal === 'number') {
-            return radiusVal ** 2 * Math.PI; 
-           }                               
-        }
+        const d = new Date();
+        const curYear = d.getFullYear();
 
-        function getCircumFerence(radiusVal){
-         if (typeof radiusVal === 'number') {
-               return 2 * radiusVal * Math.PI;
-            }
-        }
+        let arrStudents = [
+           {
+             name: 'Alex Petrov',
+             gender: 'male',
+             yearBirth: 2000
 
-        function getAverage(number1, number2) {
-               return (number1 + number2) / 2;
-        }
+           },
 
-        function calcOper(number1, number2, oper) {
-         if (oper === '+') {
-            return number1 + number2;
-         }
-         else if (oper === '-') {
-            return number1 - number2;
-         }
-         else if (oper === '*') {
-            return number1 * number2;
-         }
-         else if (oper === '/') {
-            return number1 / number2;
-         }  
-        }
-       
-      function checkData (data) {              
-         if (typeof data.radiusValue === 'number' && typeof data.num1 === 'number' && typeof data.num2 === 'number' && data.oper === 'string') {
-                 return true;                
-                 } else {
-                    return alert ('Введены не числа. Введите пож числа');
-                 }
-      }
-      
+           {
+             name: 'Helen Renova',
+             gender: 'female',
+             yearBirth: 1995
+
+          },
+
+          {
+             name: 'Peter Kucenko',
+             gender: 'male',
+             yearBirth: 1990
+
+          },
+
+          {
+             name: 'Dasha Perova',
+             gender: 'female',
+             yearBirth: 1998
+
+          },
+
+          {
+             name: 'Alex Balan',
+             gender: 'male',
+             yearBirth: 1996
+
+          }
+        ];
+        
+                     
+       function getAverageAge (arrStudents) {
+         let average = 0;
          
-      function printCalc () {         
-                       
-        let obj = getUserData(); 
-       
-        const areaCircle = getAreaCircle(obj.radiusValue).toFixed(2); //площадь круга
-        const circumFerence = getCircumFerence(obj.radiusValue).toFixed(2); //длина окружности
-        const average = getAverage(obj.num1,obj.num2); //среднее арифм
-        const resOper = calcOper(obj.num1,obj.num2,obj.oper); // арифм действие
+         for (let i = 0; i <= arrStudents.length - 1; i++) {
+            average += curYear - arrStudents[i].yearBirth;
+         }
+         return console.log('Средний возраст студентов - ' + (average / arrStudents.length).toFixed(0));  
+       };
 
-        const textAreaCircle = '1) Площадь круга при R=' + obj.radiusValue + ' равна ' + areaCircle;
-        const textCircumFerence = '2) Длина окружности при R=' + obj.radiusValue + ' равна  ' + circumFerence;
-        const textAverage = '3) Среднее арифметическое ' + obj.num1 + ' и ' + obj.num2 + '=' + average;
-        const textResOper = '4) Вычисление '+ obj.num1 + String(obj.oper) + obj.num2 + '=' + resOper;
-        
-        let textObj = 'Радиус: ' + obj.radiusValue + ';'; 
-        textObj += ' Число №1: ' + obj.num1 + ';';
-        textObj += ' Число №2: ' + obj.num2 + ';'
-        textObj += ' Действие: ' + obj.oper + ';';
-        
-        textCalc.insertAdjacentHTML('afterbegin', '<p>' + textResOper + '</p>');
-        textCalc.insertAdjacentHTML('afterbegin', '<p>' + textAverage + '</p>');
-        textCalc.insertAdjacentHTML('afterbegin', '<p>' + textCircumFerence + '</p>');
-        textCalc.insertAdjacentHTML('afterbegin', '<p>' + textAreaCircle + '</p>');
-        textCalc.insertAdjacentHTML('afterbegin', '<p>' + textObj + '</p>');
-        
-        console.log(obj);
-        console.log(textAreaCircle);
-        console.log(textCircumFerence);
-        console.log(textAverage);
-        console.log(textResOper);
-            
-      }
-               
-      printCalc();
+      
+       function checkMostGender(arrStudents) {
+          let countMale = 0;
+          let countFemale = 0;
+
+          for (let i = 0; i <= arrStudents.length - 1; i++) {
+
+           if (arrStudents[i].gender === 'male') {
+               countMale = countMale + 1;               
+            } else {
+               countFemale = countFemale + 1;
+            }           
+          }
+
+          if (countMale>countFemale) {
+            return console.log('муж. -' + countMale + ' жен. -' + countFemale + ' : мужчин больше');
+          } else {
+            return console.log('муж. -' + countMale + ' жен. -' + countFemale + ' : женщин больше');
+          }
+    
+       };
+
+       let arr = [1,2,3,4,5,6];
+      
+      function clone (arr) {
+        return arr.slice();
+      };
+
+       function isEven (x) {
+         if (x % 2 === 0) {
+            return true;
+         } else {
+            return false;
+         }
+       };
        
+       function filter (arr, isEven) {
+         const arrFilter = new Array; 
+         let j = 0;
+         for (let i = 0; i <= arr.length-1; i++) {
+            if ( isEven(arr[i]) ) {               
+               arrFilter[j++] = arr[i];                           
+            }              
+         }
+         return console.log(arrFilter); 
+       };
+
+       console.log('1. Работа с массивом объектов');
+       getAverageAge (arrStudents);
+       checkMostGender(arrStudents);
+       let brr = clone (arr);
+       brr[0] = 55;
+       console.log('2. клонирование массива и изм значения элемента');
+       console.log (brr);
+       console.log (arr);
+       
+       console.log('3. функция filter - только четные');
+       console.log (arr);
+       filter(arr, isEven);
                 
 </script>    
     
