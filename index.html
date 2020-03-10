@@ -58,14 +58,14 @@
          for (let i = 0; i <= arrStudents.length - 1; i++) {
             average += curYear - arrStudents[i].yearBirth;
          }
-         return console.log('Средний возраст студентов - ' + (average / arrStudents.length).toFixed(0));  
+         return (average / arrStudents.length).toFixed(0);  
        };
 
       
        function checkMostGender(arrStudents) {
           let countMale = 0;
           let countFemale = 0;
-
+          
           for (let i = 0; i <= arrStudents.length - 1; i++) {
 
            if (arrStudents[i].gender === 'male') {
@@ -76,17 +76,21 @@
           }
 
           if (countMale>countFemale) {
-            return console.log('муж. -' + countMale + ' жен. -' + countFemale + ' : мужчин больше');
+            return 'муж. -' + countMale + ' жен. -' + countFemale + ' : мужчин больше';           
           } else {
-            return console.log('муж. -' + countMale + ' жен. -' + countFemale + ' : женщин больше');
+            return 'муж. -' + countMale + ' жен. -' + countFemale + ' : женщин больше'            
           }
     
        };
 
        let arr = [1,2,3,4,5,6];
-      
+             
       function clone (arr) {
-        return arr.slice();
+         let cloneArr = [];
+         for (let i = 0; i <= arr.length-1; i++) {
+            cloneArr[i] = arr[i];
+         }
+        return cloneArr;
       };
 
        function isEven (x) {
@@ -98,20 +102,21 @@
        };
        
        function filter (arr, isEven) {
-         const arrFilter = new Array; 
-         let j = 0;
+         let arrFilter = [];          
          for (let i = 0; i <= arr.length-1; i++) {
+            let newIndex = arrFilter.length;
             if ( isEven(arr[i]) ) {               
-               arrFilter[j++] = arr[i];                           
+               arrFilter[newIndex] = arr[i];                           
             }              
          }
-         return console.log(arrFilter); 
+         return arrFilter; 
        };
 
        console.log('1. Работа с массивом объектов');
-       getAverageAge (arrStudents);
-       checkMostGender(arrStudents);
-       let brr = clone (arr);
+       console.log('Средний возраст студентов - ' + getAverageAge (arrStudents));
+       console.log(checkMostGender(arrStudents));
+       
+       let brr = clone(arr);
        brr[0] = 55;
        console.log('2. клонирование массива и изм значения элемента');
        console.log (brr);
@@ -119,7 +124,7 @@
        
        console.log('3. функция filter - только четные');
        console.log (arr);
-       filter(arr, isEven);
+       console.log (filter(arr, isEven));
                 
 </script>    
     
