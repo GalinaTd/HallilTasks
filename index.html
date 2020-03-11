@@ -2,129 +2,88 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title>Lesson6</title> 
+    <title>Lesson7</title> 
 </head>
 <body>
-    <h1>Lesson 6. Work with functions</h1>
+    <h1>Lesson 7. Work with functions</h1>
     <div id="textlesson"></div>
 
     <script>
         'use strict';
 
-        const d = new Date();
-        const curYear = d.getFullYear();
+        let origin = {
+          nameProduct: 'dress',
+          brend: 'Versace',
+          color: 'dark red',
+          size: 'M'         
 
-        let arrStudents = [
-           {
-             name: 'Alex Petrov',
-             gender: 'male',
-             yearBirth: 2000
+        };
+        let target = {};
 
-           },
+        function copyProperties(objTo,objFrom) {
+            for (let prop in objFrom) {
+               objTo[prop] = objFrom[prop];              
+            }
+            return objTo;
+        };
+       
+        function  getNumberOfEven(n) {
+         let countNum = 0;
+           for (let i = 0; i <= Number(String(n).length) - 1; i++) {
+            //console.log (Number(String(n)[i]));  
 
-           {
-             name: 'Helen Renova',
-             gender: 'female',
-             yearBirth: 1995
+             if ( Number(String(n)[i]) % 2 === 0 ) {
+               countNum++;   
+                        
+             }
+           }
+           
+           return countNum;
+        };
 
-          },
-
-          {
-             name: 'Peter Kucenko',
-             gender: 'male',
-             yearBirth: 1990
-
-          },
-
-          {
-             name: 'Dasha Perova',
-             gender: 'female',
-             yearBirth: 1998
-
-          },
-
-          {
-             name: 'Alex Balan',
-             gender: 'male',
-             yearBirth: 1996
-
-          }
-        ];
+        function sumAll() {
+           let sum = 0;
+         for (let i = 0; i <= arguments.length - 1; i++) {
+            sum += arguments[i];
+         }
+         return sum;
+        };
         
-                     
-       function getAverageAge (arrStudents) {
-         let average = 0;
-         
-         for (let i = 0; i <= arrStudents.length - 1; i++) {
-            average += curYear - arrStudents[i].yearBirth;
+        function mathMinMax() {
+         let minMaxArr = [];
+         let min = arguments[0];
+         let max = arguments[0];
+        
+         for (let i = 0; i <= arguments.length - 1; i++) {
+            if (min > arguments[i]) {
+               min = arguments[i];
+            }
+            if (max < arguments[i]) {
+               max = arguments[i];
+            }
+            minMaxArr[0] =  min;
+            minMaxArr[1] = max;
          }
-         return (average / arrStudents.length).toFixed(0);  
-       };
+         return minMaxArr;
+        };
 
-      
-       function checkMostGender(arrStudents) {
-          let countMale = 0;
-          let countFemale = 0;
-          
-          for (let i = 0; i <= arrStudents.length - 1; i++) {
+                
+        console.log('1 Функция copy(target, origin) - копирует свойства объекта');
+        console.log(origin);
+        console.log(copyProperties(target,origin));
+        console.log('2 Функция получает количество четных цифр в числе 223344 и 111');
+        console.log(getNumberOfEven(223344));
+        console.log(getNumberOfEven(111)); 
+        console.log('3. Функция которая возвращает сумму всех своих аргументов.');
+        console.log(sumAll());
+        console.log(sumAll(1));
+        console.log(sumAll(1,2));
+        console.log('4. Функция mathMinMax(...)');
+        console.log(mathMinMax(1, 2, 3, 4, 5));
+        console.log(mathMinMax(3, 4, 8, 5, 7, 2, 3, 0));
 
-           if (arrStudents[i].gender === 'male') {
-               countMale = countMale + 1;               
-            } else {
-               countFemale = countFemale + 1;
-            }           
-          }
 
-          if (countMale>countFemale) {
-            return 'муж. -' + countMale + ' жен. -' + countFemale + ' : мужчин больше';           
-          } else {
-            return 'муж. -' + countMale + ' жен. -' + countFemale + ' : женщин больше'            
-          }
-    
-       };
-
-       let arr = [1,2,3,4,5,6];
-             
-      function clone (arr) {
-         let cloneArr = [];
-         for (let i = 0; i <= arr.length-1; i++) {
-            cloneArr[i] = arr[i];
-         }
-        return cloneArr;
-      };
-
-       function isEven (x) {
-         if (x % 2 === 0) {
-            return true;
-         } else {
-            return false;
-         }
-       };
        
-       function filter (arr, isEven) {
-         let arrFilter = [];          
-         for (let i = 0; i <= arr.length-1; i++) {
-            let newIndex = arrFilter.length;
-            if ( isEven(arr[i]) ) {               
-               arrFilter[newIndex] = arr[i];                           
-            }              
-         }
-         return arrFilter; 
-       };
-
-       console.log('1. Работа с массивом объектов');
-       console.log('Средний возраст студентов - ' + getAverageAge (arrStudents));
-       console.log(checkMostGender(arrStudents));
-       
-       let brr = clone(arr);
-       brr[0] = 55;
-       console.log('2. клонирование массива и изм значения элемента');
-       console.log (brr);
-       console.log (arr);
-       
-       console.log('3. функция filter - только четные');
-       console.log (arr);
-       console.log (filter(arr, isEven));
                 
 </script>    
     
