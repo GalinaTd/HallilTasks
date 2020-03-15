@@ -2,80 +2,96 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title>Lesson7</title> 
+    <title>Lesson8</title> 
 </head>
 <body>
-    <h1>Lesson 7. Work with functions</h1>
+    <h1>Lesson 8. Methods array</h1>
     <div id="textlesson"></div>
 
     <script>
         'use strict';
 
-        let origin = {
-          nameProduct: 'dress',
-          brend: 'Versace',
-          color: 'dark red',
-          size: 'M'         
+        const arr = [-246, 753, -468, 475, -683, 476, -583, 746, -581];
 
-        };
-        let target = {};
+        const str = "12, 42, 63, 56, 122, 17, 117, 25, 645, 722, 964";
 
-        function copyProperties(objTo,objFrom) {
-            for (let prop in objFrom) {
-               objTo[prop] = objFrom[prop];              
-            }
-            return objTo;
-        };
-       
-        function  getNumberOfEven(n) {
-         let countNum = 0;
-           for (let i = 0; i <= Number(String(n).length) - 1; i++) {
-             if ( Number(String(n)[i]) % 2 === 0 ) {
-               countNum++;                           
-             }
-           }
-           return countNum;
-        };
+        const railWayArr = [
+            ['kodRailWay', 40,],
+            ['nameRailway', 'Одесская дорога'],            
+            ['depCount', 5]                                    
+        ];
 
-        function sumAll() {
-           let sum = 0;
-         for (let i = 0; i <= arguments.length - 1; i++) {
-            sum += arguments[i];
-         }
-         return sum;
+        const railWayObj = {
+            kodRailWay : 40, 
+            nameRailway : 'Одесская дорога',
+            depCount: 5
         };
         
-        function mathMinMax() {
-         let minMaxArr = [];
-         let min = arguments[0];
-         let max = arguments[0];
-        
-         for (let i = 0; i <= arguments.length - 1; i++) {
-            if (min > arguments[i]) {
-               min = arguments[i];
-            }
-            if (max < arguments[i]) {
-               max = arguments[i];
-            }
-            minMaxArr[0] =  min;
-            minMaxArr[1] = max;
-         }
-         return minMaxArr;
+        // сумма элементов массива
+        let sumArr = arr.reduce(function(sum, current) {
+           return sum + current;         
+        });
+
+        // только отрицательные из массива
+        let negativeArr = arr.filter(function(number){
+            return number < 0;
+        });
+
+        // сортировка по возрастанию
+        let sortArrInc = getArrClone(arr).sort(function(num1, num2){
+            return num1 - num2;
+        });
+
+        //клонирование массива для дальнейших преобразований чтобы не затереть оригинальній
+        function getArrClone(origin) {            
+             return origin.slice(0);
         };
-                
-        console.log('1 Функция copy(target, origin) - копирует свойства объекта');
-        console.log(origin);
-        console.log(copyProperties(target,origin));
-        console.log('2 Функция получает количество четных цифр в числе 223344 и 111');
-        console.log(getNumberOfEven(223344));
-        console.log(getNumberOfEven(111)); 
-        console.log('3. Функция которая возвращает сумму всех своих аргументов.');
-        console.log(sumAll());
-        console.log(sumAll(1));
-        console.log(sumAll(1,2));
-        console.log('4. Функция mathMinMax(...)');
-        console.log(mathMinMax(1, 2, 3, 4, 5));
-        console.log(mathMinMax(3, 4, 8, 5, 7, 2, 3, 0));
+
+        let reverseArr = getArrClone(sortArrInc).reverse(); //в обратном порядке
+        
+
+        let newArrDiv = arr.map(function (num){ //новый массив из элементов исходного деленный на 2
+            return num / 2;
+        });
+
+        // 2 задание
+        let arrStringToNumber = str.split(',').map(function (el){ // разбивка строки на массив и преобр к числу
+            return Number(el);
+        });
+
+        let arrEven = arrStringToNumber.filter(function(num){            
+            return num % 2 === 0;
+        });
+
+
+//функция из объекта делает массив массивов
+function makeArrFromObject (obj) {
+   
+   return Object.entries(railWayObj);
+};
+ 
+console.log ('исходный массив ' + arr);
+console.log ('1.1. Сумма элементов массива = ' + sumArr);       
+console.log('1.2 Только отрицательные ' + negativeArr);
+console.log('1.3 Сорт по возрастанию '+ sortArrInc);
+console.log('1.4 В обратном порядке '+ reverseArr);        
+console.log('1.5 Массив после деления на 2 ' + newArrDiv);
+console.log('');
+console.log('2.1 массив чисел из строки ' + arrStringToNumber);
+console.log('2.2 массив, состоящий только из четных цифр предыдущего массива ' + arrEven);      
+ 
+console.log('4.1. функция из объекта делает массив массивов');
+console.log(railWayArr);
+console.log('не получилось:((');
+
+console.log('4.2. функция из объекта делает массив массивов');
+console.log(railWayObj);
+console.log(makeArrFromObject(railWayObj));
+
+
+
+
+
 
                 
 </script>    
