@@ -37,9 +37,9 @@
             return number < 0;
         });
 
-        // сортировка по возрастанию
-        let sortArrInc = getArrClone(arr).sort(function(num1, num2){
-            return num1 - num2;
+        // сортировка по возрастанию        
+        let sortArrInc = arr.slice().sort(function(num1, num2){
+           return num1 - num2;
         });
 
         //клонирование массива для дальнейших преобразований чтобы не затереть оригинальній
@@ -47,7 +47,7 @@
              return origin.slice(0);
         };
 
-        let reverseArr = getArrClone(sortArrInc).reverse(); //в обратном порядке
+        let reverseArr = sortArrInc.slice(0).reverse(); //в обратном порядке
         
 
         let newArrDiv = arr.map(function (num){ //новый массив из элементов исходного деленный на 2
@@ -66,10 +66,23 @@
 
 //функция из объекта делает массив массивов
 function makeArrFromObject (obj) {
-   
-   return Object.entries(railWayObj);
+   let arr = [];
+   for (let key in obj){
+       arr.push([key,obj[key]]);
+       
+   }
+   return arr;
 };
- 
+
+//функция из массива массивов делает объект
+function makeObjFromArr (arr) {
+    let obj = {};
+    arr.forEach(function (el) {        
+        obj[el[0]] = el[1];        
+    });
+  return obj;
+};
+
 console.log ('исходный массив ' + arr);
 console.log ('1.1. Сумма элементов массива = ' + sumArr);       
 console.log('1.2 Только отрицательные ' + negativeArr);
@@ -82,7 +95,8 @@ console.log('2.2 массив, состоящий только из четных
  
 console.log('4.1. функция из массива массивов делает объект');
 console.log(railWayArr);
-console.log('не получилось:((');
+console.log(makeObjFromArr(railWayArr));
+
 
 console.log('4.2. функция из объекта делает массив массивов');
 console.log(railWayObj);
