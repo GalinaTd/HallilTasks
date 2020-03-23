@@ -2,80 +2,37 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title>Lesson8</title> 
+    <title>Lesson9</title> 
 </head>
 <body>
-    <h1>Lesson 8. Methods array</h1>
+    <h1>Lesson 9. Objects, getters and setters, property descriptors</h1>
     <div id="textlesson"></div>
 
     <script>
         'use strict';
 
-        const arr = [-246, 753, -468, 475, -683, 476, -583, 746, -581];
+        let keys = [
 
-        const str = "12, 42, 63, 56, 122, 17, 117, 25, 645, 722, 964";
+            //[key, value, enumerable, writable, configurable],
+            ['value', 42, true, false, false],
+            ['value2', true, false, false, false],
+            ['value3', 'Hello', true, true, true]
 
-        const railWayArr = [
-            ['kodRailWay', 40,],
-            ['nameRailway', 'Одесская дорога'],            
-            ['depCount', 5]                                    
         ];
 
-        const railWayObj = {
-            kodRailWay : 40, 
-            nameRailway : 'Одесская дорога',
-            depCount: 5
-        };
-        
-        // сумма элементов массива
-        let sumArr = arr.reduce(function(sum, current) {
-           return sum + current;         
-        });
+        let obj1 = {
+            value: 42,
+            value2: true
+        }
 
-        // только отрицательные из массива
-        let negativeArr = arr.filter(function(number){
-            return number < 0;
-        });
-
-        // сортировка по возрастанию        
-        let sortArrInc = arr.slice().sort(function(num1, num2){
-           return num1 - num2;
-        });
-
-        //клонирование массива для дальнейших преобразований чтобы не затереть оригинальній
-        function getArrClone(origin) {            
-             return origin.slice(0);
-        };
-
-        let reverseArr = sortArrInc.slice(0).reverse(); //в обратном порядке
-        
-
-        let newArrDiv = arr.map(function (num){ //новый массив из элементов исходного деленный на 2
-            return num / 2;
-        });
-
-        // 2 задание
-        let arrStringToNumber = str.split(',').map(function (el){ // разбивка строки на массив и преобр к числу
-            return Number(el);
-        });
-
-        let arrEven = arrStringToNumber.filter(function(num){            
-            return num % 2 === 0;
-        });
-
-
-//функция из объекта делает массив массивов
-function makeArrFromObject (obj) {
-   let arr = [];
-   for (let key in obj){
-       arr.push([key,obj[key]]);
+        let obj2 = {
+            value: 42,
+            value2: true
+        }       
        
-   }
-   return arr;
-};
 
 //функция из массива массивов делает объект
-function makeObjFromArr (arr) {
+function createObj (arr) {
     let obj = {};
     arr.forEach(function (el) {        
         obj[el[0]] = el[1];        
@@ -83,24 +40,23 @@ function makeObjFromArr (arr) {
   return obj;
 };
 
-console.log ('исходный массив ' + arr);
-console.log ('1.1. Сумма элементов массива = ' + sumArr);       
-console.log('1.2 Только отрицательные ' + negativeArr);
-console.log('1.3 Сорт по возрастанию '+ sortArrInc);
-console.log('1.4 В обратном порядке '+ reverseArr);        
-console.log('1.5 Массив после деления на 2 ' + newArrDiv);
-console.log('');
-console.log('2.1 массив чисел из строки ' + arrStringToNumber);
-console.log('2.2 массив, состоящий только из четных цифр предыдущего массива ' + arrEven);      
- 
-console.log('4.1. функция из массива массивов делает объект');
-console.log(railWayArr);
-console.log(makeObjFromArr(railWayArr));
+// функция сравнивающая 2 объекта
+function compareObj(objCf1, objCf2) {     
+    if ( String(Object.keys(objCf1)) != String(Object.keys(objCf2)) 
+          || String(Object.values(objCf1)) != String(Object.values(objCf2))
+       ) {
+        return false
+     }
+     return true;
+};
 
-
-console.log('4.2. функция из объекта делает массив массивов');
-console.log(railWayObj);
-console.log(makeArrFromObject(railWayObj));
+console.log('1. Функция из массива возвращает объект');
+console.log(keys);
+console.log(createObj(keys));
+console.log('2. Сравнение 2-х объектов');
+console.log(obj1);
+console.log(obj2);
+console.log(compareObj(obj1,obj2));
 
 
 
