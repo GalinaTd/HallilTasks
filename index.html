@@ -2,86 +2,89 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title>Lesson9</title> 
+    <title>Lesson10</title> 
 </head>
-<body>
-    <h1>Lesson 9. Objects, getters and setters, property descriptors</h1>
-    <div id="textlesson"></div>
+<style type="text/css">
+    TABLE {
+     width: 400px;  /*Ширина таблицы */
+     border-collapse: collapse; /* Убираем двойные линии между ячейками */
+    }
+    TD, TH {
+     padding: 3px; /* Поля вокруг содержимого таблицы */
+     border: 1px solid black; /* Параметры рамки */
+    }
+    TH {
+     background: #b0e0e6; /* Цвет фона */
+    }
+</style>
 
+<body>
+    <h1>Занятие 10. DOM-дерево, Браузерное окружение</h1>
+  
+    <div class="myList"></div>
+    <div class="myTable"></div>
+        
     <script>
         'use strict';
 
-        let keys = [
+        const dataLi = [1, [1.1, 1.2, 1.3], 2, 3];
 
-            //[key, value, enumerable, writable, configurable],
-            ['value', 42, true, false, false],
-            ['value2', true, false, false, false],
-            ['value3', 'Hello', true, true, true]
+        const $myList = document.querySelector('.myList');  
+        const $myTable = document.querySelector('.myTable'); 
 
-        ];
+        //const $myTable = document.createElement('myTable');   //динамически создание нового элемента       
+        
+        //функция из массива чисел генерирует список ul/li
+        function  generateList(array) {
+            let dateList=`<ul>\n`;
 
-        let obj1 = {
-            value: 42,
-            value2: true
+            array.forEach(function (el) {   
+                if (Array.isArray(el)) { // проверка, является ли элемент массивом
+                    dateList += `<ul>\n`;// для нулевого элемента начало вложенного списка
+
+                    el.forEach(function (elNest, indNest) {  // цикл по вложенному массиву                                                   
+                        dateList += `<li>${elNest}</li>\n`;
+                       
+                        if ( indNest === el.length - 1 ) {
+                            dateList += `</ul>\n`;
+                            
+                        } 
+                    });
+                }
+                else {
+                    dateList += `<li>${el}</li>\n`;
+                };               
+      
+            });
+            dateList += `</ul>`; 
+            return dateList;
         };
 
-        let obj2 = {
-            value: 42,
-            value2: true
-        };      
-       
+    // функция возвращает таблицу 10*10   
+    function generateTable() {
+        let htmlTable = `<table>`;
+        let j = 0;
+        for (let i = 0; i <= 99; i++) {
+            if (i % 10 === 0) { // новая строка
+                htmlTable +=`<tr>\n`;
+            }
+            htmlTable +=`<td>${i+1}</td>\n`;          
 
-//функция из массива массивов делает объект
-function createObj (arr) {
-    let obj = {};
-    arr.forEach(function (el) {       
-              
-        Object.defineProperty(obj, el[0], {           
-            value: el[1],
-            enumerable: el[2], 
-            writable: el[3], 
-            configurable: el[4]
-        })
-    });
-  return obj;
-};
+        }
+        htmlTable +=`</tr></table>\n`;        
+        return htmlTable;
+    };     
 
-// функция сравнивающая 2 объекта
-function compareObj(objCf1, objCf2) {       
-     return String(Object.keys(objCf1)) === String(Object.keys(objCf2)) && 
-            String(Object.values(objCf1)) === String(Object.values(objCf2));
-};
-
-//2 вариант сравнение объектов с исп метода entries
-function compareObjShort1(objCf1, objCf2) {
-    let obj1Str = String(Object.entries(objCf1)); //1 объект в строку
-    let obj2Str = String(Object.entries(objCf2)); //2 объект в строку
-        return obj1Str === obj2Str;    
-  
-};
-
-//2 вариант сравнение объектов с исп JSON
-function compareObjShort2(objCf1, objCf2) {
-    return JSON.stringify(objCf1) === JSON.stringify(objCf2);
-};
-
-
-console.log('1. Функция из массива возвращает объект');
-console.log(keys);
-console.log(createObj (keys));
-console.log (Object.getOwnPropertyDescriptor(createObj(keys),'value'));
-console.log (Object.getOwnPropertyDescriptor(createObj(keys),'value2'));
-console.log (Object.getOwnPropertyDescriptor(createObj(keys),'value3'));
-
-console.log('2. Сравнение 2-х объектов');
-console.log(obj1);
-console.log(obj2);
-console.log('с исп Object.keys, Object.values -'+ compareObj(obj1,obj2));
-console.log('с исп метода entries - '+ compareObjShort1(obj1,obj2));
-console.log('с исп JSON - ' + compareObjShort2(obj1,obj2));
-
-                
-</script>    
+    $myList.innerHTML = generateList(dataLi);    
+    $myTable.innerHTML = generateTable();      
+      
+     //$myList.after($myTable); // после $myList вставить $myTable
+     
+     // Вопросы. 1) Как отрисовать сетку таблицы прямо из кода? 
+     // 2) Как доступиться к стилям таблицы, если мы ее генерируем прямо из кода, с помощью document.createElement() ?
+    </script> 
+    
+   
     
 </body>
 </html>
