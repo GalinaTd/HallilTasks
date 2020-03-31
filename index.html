@@ -69,7 +69,8 @@
                 break;
             };     
            
-           return document.getElementById(this.id).style.background = myColor;
+           //document.getElementById(this.id).style.background = myColor;
+           this.style.background = myColor;
   
         };
 
@@ -78,6 +79,7 @@
        function reverseElement () {
            let el = document.getElementById(this.id);
             document.body.appendChild(el);
+            //el.append(this);
        };
       
      
@@ -99,7 +101,7 @@
         } else {
             classes.push(myClass); // добавление нового элемента в массив
         }
-        return myEl.className = classes.join(' '); //собираем в строку и указываем пробел в качестве разделителя
+        myEl.className = classes.join(' '); //собираем в строку и указываем пробел в качестве разделителя
      }
      
      toggleClass('div', 'border');
@@ -113,7 +115,7 @@
         } else {
             myEl.classList.add(myClass); 
         }
-        return myEl.className;
+        myEl.className;
      };
 
      //toggleClass2('div', 'border');
