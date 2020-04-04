@@ -125,23 +125,20 @@
          $btnPlus.forEach(function(btn) {
           
             btn.addEventListener('click', function() {
-               let count = +btn.previousElementSibling.innerText;
-               btn.addEventListener('click', function() {             
+               let count = +btn.previousElementSibling.innerText;                           
                count++;               
-               btn.previousElementSibling.innerText = count; //сосед перед кнопкой
-           
-            });          
+               btn.previousElementSibling.innerText = count; //сосед перед кнопкой          
+                      
           })
          });
 
           //минус по кнопке
           $btnMinus.forEach(function(btn) {             
              btn.addEventListener('click', function() {
-               let count = +btn.previousElementSibling.previousElementSibling.innerText;
-                btn.addEventListener('click', function() {             
+               let count = +btn.previousElementSibling.previousElementSibling.innerText;                             
                 count--;                
                 btn.previousElementSibling.previousElementSibling.innerText = count; //через 2 соседа перед кнопкой
-                });        
+                      
              })
              
           });
