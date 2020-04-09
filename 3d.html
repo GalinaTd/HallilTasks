@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Lesson14. 3D</title> 
+</head>
+
+<style type="text/css">
+    body { margin: 0;}
+	canvas { display: block; }
+</style>
+
+<body>
+
+<script src="three.js"></script>
+<script src="OrbitControls.js"></script>
+
+<script>
+    'use strict';
+    //console.log (THREE);
+
+    const scene = new THREE.Scene();
+    const fov = 70;
+    const aspectRatio = window.innerWidth / window.innerHeight;  
+    const near = 0.1;
+    const far = 1000;
+    const camera = new THREE.PerspectiveCamera(fov, aspectRatio, near, far);
+
+    const renderer = new THREE.WebGLRenderer();   
+    renderer.setClearColor(0xDDDDDD, 1); // цвет фона и степень прозрачности
+    renderer.setSize(window.innerWidth, window.innerHeight); // установка ширины и высоты сцены
+    document.body.prepend(renderer.domElement);
+
+    const controls = new THREE.OrbitControls(camera, renderer.domElement); // создание экземпляра для управления
+
+    const geometry = new THREE.BoxGeometry( 1, 1, 1); //ширина высота глубина фигуры по умолчанию
+    const material = new THREE.MeshPhongMaterial( {color: '#FFD700'} ); // закраска кубика
+    const cube = new THREE.Mesh( geometry, material ); // меш фигура
+    
+    cube.scale.set(4, 4, 4); //установка размеров фигуры в единицах
+    //cube.position.x = 5;
+    //cube.position.y = 2;
+    
+    scene.add( cube );
+    controls.update(); // вызов управления фигурой
+    
+    camera.position.z = 10; 
+    const color = '#FF8C00'; // цвет для света при вращении
+    const intensity = 1.5; // интенсивность цвета
+
+    const light = new THREE.DirectionalLight(color,intensity); // установка цвета и интенс
+    light.position.set = (-1, 4, 4);
+    scene.add ( light );
+
+    //функция которая вызывает саму себя и зацикливается на себе =рекурсия
+    function animate() {
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+        cube.rotation.x += 0.01;
+        cube.rotation.y += 0.01; 
+
+        controls.update(); // вызов управления фигурой
+    }
+    animate();
+
+
+    
+
+
+</script>
+
+</body>

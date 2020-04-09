@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Lesson14.2D</title> 
+</head>
+
+<style type="text/css">
+    body {
+        background-color: Lavender;       
+    }
+    canvas {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+
+<body>
+    <canvas id="snowman" width="500" height="500"></canvas>
+    
+    <script>
+         'use strict';
+
+        const $snowmann = document.getElementById('snowman');
+        const ctx = $snowmann.getContext('2d');
+
+        //ctx.fillStyle = 'Snow';
+        //ctx.strokeStyle = 'Black';
+        //ctx.shadowColor = 'Gray';
+        //ctx.shadowBlur = 15;
+
+       
+        function drawCircle (x, y, radius, isCircle, fillStyleMy, strokeStyleMy, shadowColorMy, shadowBlurMy) {           
+            ctx.beginPath();
+            ctx.fillStyle = fillStyleMy;
+            ctx.strokeStyle = strokeStyleMy;
+            ctx.shadowColor = shadowColorMy;
+            //console.log(fillStyleMy);
+            ctx.shadowBlur = shadowBlurMy;
+            if (isCircle) {                            
+                ctx.arc(x,y,radius,0,Math.PI*2,true);
+            } else {
+                          
+                ctx.arc(x,y,radius,0,Math.PI,false);
+            }
+            ctx.fill();
+            ctx.stroke();
+        };
+
+        drawCircle(150, 75, 30,  true, 'Snow', 'LightSteelBlue', 'Gray', 15); // голова         
+        drawCircle(150, 145, 40, true, 'Snow', 'LightSteelBlue', 'Gray', 15); // туловище
+        drawCircle(150, 235, 50, true, 'Snow', 'LightSteelBlue', 'Gray', 15); // нижн часть
+
+        drawCircle(135, 70, 3, true, 'Black', 'Gray', 'Black', 1); // левый глаз  
+           
+        drawCircle(165, 70, 3, true, 'Black', 'Gray', 'Black', 1); // правый глаз
+       
+        drawCircle(105,145,15, true, 'Snow', 'LightSteelBlue', 'Gray', 15); // левая рука
+        drawCircle(195,145,15, true, 'Snow', 'LightSteelBlue', 'Gray', 15); // правая рука
+
+        drawCircle(150,85,10, false, 'Brown', 'Gray', 'Gray', 1); // рот
+        
+        
+        drawCircle(150, 130, 3, true, 'Blue', 'Gray', 'Gray', 3); // пуговицы       
+        drawCircle(150, 145, 3, true, 'Blue', 'Gray', 'Gray', 3); // пуговицы 
+        drawCircle(150, 160, 3, true, 'Blue', 'Gray', 'Gray', 3); // пуговицы
+
+        drawCircle(110, 270, 15, true, 'Snow', 'LightSteelBlue', 'Gray', 15); // левая нога 
+        drawCircle(190, 270, 15, true, 'Snow', 'LightSteelBlue', 'Gray', 15); // правая нога 
+
+
+    </script>
+
+
+</body>
