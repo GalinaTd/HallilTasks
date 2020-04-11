@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Lesson13</title>
+</head>
+
+<style type="text/css">
+    TABLE {
+        width: 700px;
+        /*Ширина таблицы */
+        border-collapse: collapse;
+        /* Убираем двойные линии между ячейками */
+        height: 150px;
+    }
+
+    TD,
+    TH {
+        padding: 5px;
+        /* Поля вокруг содержимого таблицы */
+        border: 1px solid grey;
+        /*Параметры рамки */
+
+    }
+
+    TH {
+        background: #b0e0e6;
+        /* Цвет фона */
+    }
+
+    [contenteditable="true"] {
+        min-height: 30px;
+        font-size: 20px;
+        line-height: 30px;
+        margin-bottom: 30px;
+        border: 1px solid;
+        width: 500px;
+    }
+
+    button {
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        border: 1px solid;
+    }
+
+    .btnClear {
+        width: 100px;
+        height: 30px;
+        text-align: center;
+        border: 1px solid;
+        background-color: rgba(0, 0, 255, 0.336);
+        color: white;
+    }
+
+    .box {
+        width: 600px;
+        float: left;
+        display: flex;
+        align-items: flex-start;
+        margin-right: 15px;
+    }
+
+    .clear-fix:after {
+        content: ".";
+        clear: both;
+        display: block;
+        height: 0;
+        visibility: hidden;
+    }
+
+    form {
+        margin-top: 50px;
+    }
+
+    .btn_calc {
+        width: 100px;
+        height: 20px;
+    }
+
+    div {
+        margin-bottom: 10px;
+    }
+</style>
+
+<body>
+    <h1>Занятие 13. События, работа с формой</h1>
+    <!--контейнер для 1-го задания - вирт клавиатура-->
+    <div class="container">
+        <div class=box>
+            <div class="content" contenteditable="true"></div>
+            <button class="btnClear">Очистить</button>
+        </div>
+        <div class="clear-fix"></div>
+        <div class="myTable"></div>
+    </div>
+
+    <form action="" id="converter" name="converter">
+        <p>Я хочу<input name="saleBuy" type="radio" value="sale" checked>Продать
+            <input name="saleBuy" type="radio" value="buy">Купить </p>
+        <div>
+            Валюта из&nbsp;&nbsp;
+            <select name="currencyFrom">
+                <option value="USD" selected>USD</option>
+                <option value="EUR">EUR</option>
+                <option value="UAN">UAH</option>
+            </select>
+            &nbsp;&nbsp;&nbsp;&nbsp;Валюту в&nbsp;&nbsp;
+            <select name="currencyTo">
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+                <option value="UAN" selected>UAH</option>
+            </select>
+        </div>
+        <div class="field">Сумма&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input name="sumInput" id="sumInput" type="text">
+        </div>
+        <div class="field">Результат&nbsp;&nbsp;
+            <input name="resInput" id="resInput" type="text" value="" disabled>
+        </div>
+        <div>
+            <button type="submit" name="calc" id="calc" class="btn_calc">Расчет</button>
+        </div>
+
+    </form>
+
+
+    <script>
+        'use strict';
+
+        const alphabetArr = 'a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,CapsLock,Пробел,!,"'.split(',');
+
+        const currency = {
+            USD: {
+                sale: 28,
+                buy: 27
+            },
+            EUR: {
+                sale: 30,
+                buy: 29
+            },
+            UAN: {
+                sale: 1,
+                buy: 1,
+            }
+        };
+
+
+        const $myTable = document.querySelector('.myTable');
+        const $content = document.querySelector('.content');
+
+        //по умолчанию капс лок выкл       
+        let countCL = 0;
+
+        function generateTableData(arr) {
+            let htmlTable = `<table>`;
+            let tr = `<tr>`;
+
+            arr.forEach(function (el, ind) {
+                if (ind % 13 === 0) {
+                    tr += `</tr><tr><td><button data-action="letter">${el}</button></td>`;
+                } else {
+                    tr += `<td><button data-action="letter">${el}</button></td>`;
+                }
+            });
+
+            tr += `</tr>`;
+
+            htmlTable += tr;
+
+            htmlTable += `</table>`;
+            return htmlTable;
+        };
+
+        $myTable.innerHTML = generateTableData(alphabetArr);
+
+
+        document.querySelectorAll('[data-action="letter"]')
+            .forEach(function (el) {
+                el.addEventListener('click', function () {
+                    let str = '';
+                    if (this.textContent === 'CapsLock') {
+                        countCL++;
+
+                    } else if (this.textContent === 'Пробел') {
+                        $content.innerHTML = $content.innerHTML + ' ';
+                    } else {
+
+                        if (countCL % 2 === 0) {
+                            $content.innerHTML = $content.innerHTML + this.textContent.toLowerCase();
+
+                        } else {
+                            $content.innerHTML = $content.innerHTML + this.textContent.toUpperCase();
+                        }
+
+                    }
+
+                });
+
+            });
+
+        // очистка input
+        document.querySelector('.btnClear')
+            .addEventListener('click', function () {
+                $content.innerHTML = '';
+
+            });
+
+        document.querySelector('#converter').addEventListener('submit', function (e) {
+            e.preventDefault();
+            //console.dir(e);
+            const saleBuy = this.saleBuy.value;
+            const currencyFrom = this.currencyFrom.value;
+            const currencyTo = this.currencyTo.value;
+            const sumInput = this.sumInput.value;
+            const resInput = this.resInput;
+
+            if (currencyFrom === currencyTo) {
+                resInput.value = sumInput;
+            }
+            if (currencyFrom !== 'UAN' && currencyTo === 'UAN') {
+                resInput.value = sumInput * currency[currencyFrom][saleBuy];
+            }
+            if (currencyFrom !== 'UAN' && currencyTo !== 'UAN') {
+                resInput.value = sumInput * currency[currencyFrom][saleBuy] / currency[currencyTo][saleBuy];
+            }
+            if (currencyFrom === 'UAN' && currencyTo !== 'UAN') {
+                resInput.value = sumInput / currency[currencyTo][saleBuy];
+            }
+
+        });
+
+
+    </script>
+
+</body>
