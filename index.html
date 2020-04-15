@@ -73,6 +73,8 @@
         <div class="task1">
             <p>Задание 1. Таблица 3*3 с случайными числами от 1 до 100 и обработкой клика</p>
             <div class="myTable"></div>
+            <div class="myTable2"></div>
+           
         </div>
 
         <div class="task2">
@@ -107,7 +109,7 @@
                 return Math.random() * (max - min) + min;
             };
 
-            const $myTable = document.querySelector('.myTable');
+            const $myTable = document.querySelector('.myTable');            
             const $task1 = document.querySelector('.task1');
 
             // функция возвращает таблицу 10*10   
@@ -128,32 +130,22 @@
                 return htmlTable;
             };
 
-            let selectedTd;
-            // подсветка, выделение ячейки цветом по клику
-            function backlight(el) {
-                if (selectedTd) { // убрать существующую подсветку, если есть
-                    selectedTd.classList.remove('myColor');
-                }
-                selectedTd = el;
-                selectedTd.classList.add('myColor'); // подсветить новый td
-            }
-
+           
             //вставка таблицы
             $myTable.innerHTML = generateTable(3, 3);
             // вставка input для вывода значения из таблицы по которому кликнули
             let $input = document.createElement('input');
             $input.setAttribute('type', 'text');
             $task1.append($input);
-
-
-            document.querySelector('table')
-                .addEventListener('click', function (e) {
+                      
+            $myTable.addEventListener('click', function (e) {
 
                     const $el = e.target;
                     $input.value = $el.textContent;
-                    backlight($el);   //вызываю подсветку       
-
-                })
+                    //console.log($($el).closest('table').find('td'));                                  
+                    $('.myTable td').removeClass('myColor');
+                    $($el).addClass('myColor');
+            })
             // 2 задание
 
             $(document).ready(function () {                 

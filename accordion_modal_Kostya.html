@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Lesson15</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+</head>
+<style type="text/css">
+
+.accordion-item__title.active {
+    color:orange;}
+
+.accordion-item__content {
+    display: none;}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    text-align: center;
+    border-radius: 3px;
+    background-color: white;
+    transform:translate(-50%,-50%);
+    z-index:3;
+}
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+    z-index:2;
+}
+</style>
+
+<body>
+  
+    <button id="show-modal" type="button">Show modal</button>
+    <div class="modal">
+        <h3>Modal Title</h3>
+        <p>Modal content</p>
+        <button class="close">&times;</button>
+    </div>
+
+    <button id="show-modal2" type="button">Show modal 2</button>
+
+    <div class="accordion">
+        <div class="accordion-item">
+            <h2 class="accordion-item__title">Title 1</h2>
+            <p class="accordion-item__content">Item for title 1</p>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-item__title">Title 2</h2>
+            <p class="accordion-item__content">Item for title 2</p>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-item__title">Title 3</h2>
+            <p class="accordion-item__content">Item for title 3</p>
+        </div>
+       
+    </div>
+   
+    <script>
+         'use strict';
+/// вариант когда модальное окно есть в разметке
+         $('#show-modal').click(function(){
+             $('body').append('<div class="overlay"></div>');//затемняем осн окно
+             $('.modal').fadeIn('fast'); //открыть модалку
+         });
+
+         $('.modal .close').click(function(){
+            $(this).parent().fadeOut('fast');
+            $('.overlay').remove();
+         });
+// вариант когда модальное окно нужно сделать динамически
+        $('#show-modal2').click(function() {
+            const $modal = `<div class="modal">
+                            <h3>Modal Title</h3>
+                            <p>Modal content</p>
+                            <button class="close">&times;</button></div>`;
+            $('body').append('<div class="overlay"></div>');//затемняем осн окно
+            $('body').append($modal);
+            $('.modal').fadeIn('fast'); //открыть модалку
+        });
+
+
+          //аккордеон
+          $('.accordion').on('click', '.accordion-item__title', function(){
+                       
+           $('.accordion-item__title').removeClass('active');     
+             
+             $(this).addClass('active')
+              .next()
+              .slideToggle(1000);
+          })  
+
+
+    </script>
+
+</body>
