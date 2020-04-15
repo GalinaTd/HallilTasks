@@ -2,170 +2,162 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-    <meta charset="utf-8" />
-    <title>Lesson15</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+  <meta charset="utf-8" />
+  <title>Lesson15</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 </head>
 
 <style type="text/css">
-    TABLE {
+  div {
+    padding-bottom: 20px;
+  }
 
-        border-collapse: collapse;
-        /* Убираем двойные линии между ячейками */
-    }
 
-    TD {
-        padding: 10px;    
-        border: 1px solid black;
-        /* Параметры рамки */
-        width: 50px;
-        height: 50px;
-        text-align: center;
-    }
+  button {
+    margin: 20px auto;
+    width: 40px;
+    height: 20px;
+    font-weight: bold;
+    text-align: center;
+    float: left;
+    margin-left: 10px;
 
-    TH {
-        background: #b0e0e6;
-        /* Цвет фона */
-    }
+  }
 
-    div {
-        padding-bottom: 20px;
-    }
+  .box {
+    width: 120px;
+    height: 120px;
+    float: left;
+    margin-left: 30px;
+    margin-bottom: 30px;
+    background-color: Lavender;    
+    display:table;
+  
+  }
+  .count{
+    margin-top: 20px;  
+    margin-left:55px;       
+  }
 
-    p {
+  .square {
+    width: 120px;
+    height: 120px;
+    float: left;
+    margin-left: 30px;
+    margin-bottom: 30px;
 
-        font-size: 15px;
-        font-weight: bold;
+  }
 
-    }
+  .clear-fix:after {
+    content: ".";
+    clear: both;
+    display: block;
+    height: 0;
+    visibility: hidden;
+  }
 
-    .myColor {
-        background-color: Thistle;
-        font-weight: bold;
-    }
+  .blueColor {
+    background-color: blue;
+  }
 
-    #accordeon {
-        width: 350px;
-        border: 10px solid #fff;
-        box-shadow: 0 0 10px LightSteelBlue;
-        margin: 10px;
-    }
+  .greenColor {
+    background-color: green;
+  }
 
-    .acc-head {
-        padding: 5px 10px;
-        background: LightSteelBlue;
-        cursor: pointer;        
-        
-    }
+  .yellowColor {
+    background-color: yellow;
+  }
 
-    .acc-body {
-        padding: 10px;
-        border-bottom: 1px solid grey;
-        margin-bottom: 5px;
-        background: whitesmoke;
-        display: none;
-        
-    }
+  .greyColor {
+    background-color: grey;
+  }
 </style>
 
 <body>
-    <h2>Занятие 15. Делегирование событий </h1>
-        <div class="task1">
-            <p>Задание 1. Таблица 3*3 с случайными числами от 1 до 100 и обработкой клика</p>
-            <div class="myTable"></div>
-            <div class="myTable2"></div>
+  <div class="container">
+    <h4>1. Квадраты с кнопками +\- на jQUERY</h4>
+    <div class="box">
+      <div class="count">0</div>      
+      <button type="button" data-action="minus">-</button>
+      <button type="button" data-action="plus">+</button>
+    </div>
+    <div class="box">
+      <div class="count">0</div>  
+      <button type="button" data-action="minus">-</button>
+      <button type="button" data-action="plus">+</button>
+    </div>
+    <div class="box">
+      <div class="count">0</div>  
+      <button type="button" data-action="minus">-</button>
+      <button type="button" data-action="plus">+</button>
+    </div>
+    <div class="box">
+      <div class="count">0</div>  
+      <button type="button" data-action="minus">-</button>
+      <button type="button" data-action="plus">+</button>
+    </div>
+    <div class="box">
+      <div class="count">0</div>  
+      <button type="button" data-action="minus">-</button>
+      <button type="button" data-action="plus">+</button>
+    </div>
+  </div>
+  <div class="clear-fix"></div>
+  <div class="container">
+    <h4>2. Квадраты с изменением цвета по клику, меняют цвет и передвигаются в конец на jQUERY</h4>
+    <button type="button" data-action="changeColor" class="square greyColor"></button>
+    <button type="button" data-action="changeColor" class="square greyColor"></button>
+    <button type="button" data-action="changeColor" class="square greyColor"></button>
+    <button type="button" data-action="changeColor" class="square greyColor"></button>
+    <button type="button" data-action="changeColor" class="square greyColor"></button>
+  </div>
+
+
+  <script>
+    'use strict';
+
+    $(document).ready(function () {
+      let count;
+      $('.container').on('click', 'button', function () {
+        count = +$(this).prevAll('.count').text();
+        if ($(this).data('action') === 'plus') {
+          count++;
+          $(this).prevAll('.count').text(count);
+        }
+        if ($(this).data('action') === 'minus') {
+          count--;
+          $(this).prevAll('.count').text(count);
+        }
            
-        </div>
+        // 2 task
+        if ($(this).data('action') === 'changeColor') {
+          let bdColor = (($(this).attr('class').substring(7))); //достаю название класса с цветом
 
-        <div class="task2">
-            <p>Задание 2. Аккордеон на JQUERY</p>
-            <div id="accordeon">
-                <div class="acc-head">
-                    1. АС План ДГ
-                </div>
-                <div class="acc-body">
-                    АС План ДГ - это система для планирования работы железной дороги на сутки
-                </div>
-                <div class="acc-head">
-                    2. АС План ДС
-                </div>
-                <div class="acc-body">
-                    АС План ДС - это система для планирования работы припортовых станций на сутки
-                </div>
+          switch (bdColor) {
+            case 'greyColor':
+              $(this).removeClass(bdColor);
+              $(this).addClass('blueColor');
+              break;
+            case 'blueColor':
+              $(this).removeClass(bdColor);
+              $(this).addClass('greenColor');
+              break;
+            case 'greenColor':
+              $(this).removeClass(bdColor);
+              $(this).addClass('yellowColor');
+              break;
+            case 'yellowColor':
+              $(this).removeClass(bdColor);
+              $(this).addClass('greyColor');
+          }
+         
+          $(this).parent().append($(this));
 
-                <div class="acc-head">
-                    3. АС Техплан
-                </div>
-                <div class="acc-body">
-                    АС Техплан - это система для расчета технического плана на месяц
-                </div>
-            </div>
-        </div>
+        }
+     
+    })
+  });
 
-        <script>
-            'use strict';
+  </script>
 
-            function getRandomArbitrary(min, max) {
-                return Math.random() * (max - min) + min;
-            };
-
-            const $myTable = document.querySelector('.myTable');            
-            const $task1 = document.querySelector('.task1');
-
-            // функция возвращает таблицу 10*10   
-            function generateTable(row, cols) {
-                let htmlTable = `<table>`;
-                let j = 0;
-                let styles = '';
-                for (let i = 1; i <= row; i++) {
-                    let tr = `<tr>`;
-                    for (let j = 1; j <= cols; j++) {
-                        let num = getRandomArbitrary(1, 100).toFixed(0);
-                        tr += `<td>${num}</td>`;
-                    }
-                    tr += `</tr>`;
-                    htmlTable += tr;
-                }
-                htmlTable += `</table>`;
-                return htmlTable;
-            };
-
-           
-            //вставка таблицы
-            $myTable.innerHTML = generateTable(3, 3);
-            // вставка input для вывода значения из таблицы по которому кликнули
-            let $input = document.createElement('input');
-            $input.setAttribute('type', 'text');
-            $task1.append($input);
-                      
-            $myTable.addEventListener('click', function (e) {
-
-                    const $el = e.target;
-                    $input.value = $el.textContent;
-                    //console.log($($el).closest('table').find('td'));                                  
-                    $('.myTable td').removeClass('myColor');
-                    $($el).addClass('myColor');
-            })
-            // 2 задание
-
-            $(document).ready(function () {                 
-                //обработка клика по селектору "#accordeon .acc-head"
-                $('#accordeon .acc-head').on('click', hideShowElAcc);
-            });
-
-            function hideShowElAcc() {
-                              
-               //скрываем все кроме того, что должны открыть
-                $('#accordeon .acc-body')
-                .not($(this) //.not(DOMelmts) -искл из набора дом элемент на который кликнули
-                .next())  // next() возвращает элемент сразу после элемента с идентом #accordeon и классом .acc-body
-                .slideUp(1000); //slideUp() скрытие за счет плавного сворач., задается в миллисек, обрат метод .slideDown()
-               
-                // открываем или скрываем блок под заголовоком, по которому кликнули
-                $(this).next()
-                .slideToggle(); //метод плавно сворачив. или разворач. выбранный элемент
-            }
-
-          
-        </script>
 </body>
