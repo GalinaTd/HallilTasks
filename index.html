@@ -3,161 +3,90 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>Lesson15</title>
+  <title>Lesson17</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 </head>
 
 <style type="text/css">
-  div {
-    padding-bottom: 20px;
-  }
-
-
-  button {
-    margin: 20px auto;
-    width: 40px;
-    height: 20px;
-    font-weight: bold;
-    text-align: center;
-    float: left;
-    margin-left: 10px;
-
-  }
-
-  .box {
-    width: 120px;
-    height: 120px;
-    float: left;
-    margin-left: 30px;
-    margin-bottom: 30px;
-    background-color: Lavender;    
-    display:table;
-  
-  }
-  .count{
-    margin-top: 20px;  
-    margin-left:55px;       
-  }
-
-  .square {
-    width: 120px;
-    height: 120px;
-    float: left;
-    margin-left: 30px;
-    margin-bottom: 30px;
-
-  }
-
-  .clear-fix:after {
-    content: ".";
-    clear: both;
-    display: block;
-    height: 0;
-    visibility: hidden;
-  }
-
-  .blueColor {
-    background-color: blue;
-  }
-
-  .greenColor {
-    background-color: green;
-  }
-
-  .yellowColor {
-    background-color: yellow;
-  }
-
-  .greyColor {
-    background-color: grey;
-  }
 </style>
 
-<body>
-  <div class="container">
-    <h4>1. Квадраты с кнопками +\- на jQUERY</h4>
-    <div class="box">
-      <div class="count">0</div>      
-      <button type="button" data-action="minus">-</button>
-      <button type="button" data-action="plus">+</button>
-    </div>
-    <div class="box">
-      <div class="count">0</div>  
-      <button type="button" data-action="minus">-</button>
-      <button type="button" data-action="plus">+</button>
-    </div>
-    <div class="box">
-      <div class="count">0</div>  
-      <button type="button" data-action="minus">-</button>
-      <button type="button" data-action="plus">+</button>
-    </div>
-    <div class="box">
-      <div class="count">0</div>  
-      <button type="button" data-action="minus">-</button>
-      <button type="button" data-action="plus">+</button>
-    </div>
-    <div class="box">
-      <div class="count">0</div>  
-      <button type="button" data-action="minus">-</button>
-      <button type="button" data-action="plus">+</button>
-    </div>
-  </div>
-  <div class="clear-fix"></div>
-  <div class="container">
-    <h4>2. Квадраты с изменением цвета по клику, меняют цвет и передвигаются в конец на jQUERY</h4>
-    <button type="button" data-action="changeColor" class="square greyColor"></button>
-    <button type="button" data-action="changeColor" class="square greyColor"></button>
-    <button type="button" data-action="changeColor" class="square greyColor"></button>
-    <button type="button" data-action="changeColor" class="square greyColor"></button>
-    <button type="button" data-action="changeColor" class="square greyColor"></button>
-  </div>
+<script>
+  'use strict';
 
+  //1 задание аналог метода bind своими руками
+  const bind = function (fn, context) {
+    // преобраз. псевдомассива arguments в новый массив Array и обрезаем функцию и контекст
+    const bindArgs = [].slice.call(arguments, 2);
+    //console.log(bindArgs);
+    return function () {
+      // преобраз. все аргументы функции в новый массив
+      const fnArgs = [].slice.call(arguments);
+      // собираем все аргументы и вызываем функцию с заданным контекстом и аргументами              
+      return fn.apply(context, bindArgs.concat(fnArgs));
+    };
+  };
 
-  <script>
-    'use strict';
+  //функция которая суммирует все аргументы и прибавляет к начальной сумме
+  const sum = function () {
+    return [].reduce.call(arguments, function (result, current) {
+      return result + current;
+    }, this.sum);
+  };
 
-    $(document).ready(function () {
-      let count;
-      $('.container').on('click', 'button', function () {
-        count = +$(this).prevAll('.count').text();
-        if ($(this).data('action') === 'plus') {
-          count++;
-          $(this).prevAll('.count').text(count);
-        }
-        if ($(this).data('action') === 'minus') {
-          count--;
-          $(this).prevAll('.count').text(count);
-        }
-           
-        // 2 task
-        if ($(this).data('action') === 'changeColor') {
-          let bdColor = (($(this).attr('class').substring(7))); //достаю название класса с цветом
+  //метод bind
+  const bindSumNative = sum.bind({ sum: 50 }, 20, 30, 10);
+  console.log(bindSumNative(80,70));
 
-          switch (bdColor) {
-            case 'greyColor':
-              $(this).removeClass(bdColor);
-              $(this).addClass('blueColor');
-              break;
-            case 'blueColor':
-              $(this).removeClass(bdColor);
-              $(this).addClass('greenColor');
-              break;
-            case 'greenColor':
-              $(this).removeClass(bdColor);
-              $(this).addClass('yellowColor');
-              break;
-            case 'yellowColor':
-              $(this).removeClass(bdColor);
-              $(this).addClass('greyColor');
-          }
-         
-          $(this).parent().append($(this));
+  // проверка работы ручного метода bind
+  const bindedSum = bind(sum, { sum: 50 }, 20, 30, 10); // {sum: 10} => thisArg с которого начинается суммирование
+  console.log(bindedSum(80, 70));
 
-        }
-     
-    })
+  function foo(phrase = 'Hello', symbol) {
+      return `${phrase} ${this.name} ${symbol}`;
+  };
+
+  const admin = {
+    name: 'Alex',
+    foo: foo
+  };
+ // 2-я проверка ручного bind
+  const baz = bind(foo, admin, 'How are you', '?'); //запуск foo с контекстом admin и новой фразой
+  console.log(baz());
+
+  // 2 задание аналог метода map своими руками
+  const map = function (arr, callback, thisArg) {
+    let results = []; // новый массив для записи элементов после работы функции 
+    let elNew; // новый элемент массива
+    for (let i = 0; i < arr.length; i = i + 1) {
+      elNew = callback.call(thisArg, arr[i], i, arr); //запуск функции для преобразования элемента
+      results.push(elNew); //добавляем новый элемент в массив с помощью push
+    }
+    return results;
+  };
+
+  const arr = [1, 2, 3, 4, 5];
+  
+  //пример метода map с возведением в степень
+  const arrPowNative = arr.map(function (el, ind) {
+    return Math.pow(el, ind);
+  });
+  console.log(arrPowNative);
+
+  // пример ручной map с возведением в степень
+  const arrPow = map(arr, function (el, ind) {
+    return Math.pow(el, ind);
+  });
+  console.log(arrPow);
+  
+  // пример ручной map с переводом массива из градусов цельсия в массив по фарингейту
+  const celsius = [-15, -5, 0, 10, 16, 20, 24, 32];
+  const fahrenheit = map(celsius, function (el) {
+    return el * 1.8 + 32;
   });
 
-  </script>
+  console.log(celsius);
+  console.log(fahrenheit);
 
-</body>
+  
+
+</script>
