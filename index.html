@@ -2,91 +2,100 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-  <meta charset="utf-8" />
-  <title>Lesson17</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <meta charset="utf-8" />
+    <title>Lesson18</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 </head>
 
 <style type="text/css">
 </style>
 
-<script>
-  'use strict';
+<body>
 
-  //1 задание аналог метода bind своими руками
-  const bind = function (fn, context) {
-    // преобраз. псевдомассива arguments в новый массив Array и обрезаем функцию и контекст
-    const bindArgs = [].slice.call(arguments, 2);
-    //console.log(bindArgs);
-    return function () {
-      // преобраз. все аргументы функции в новый массив
-      const fnArgs = [].slice.call(arguments);
-      // собираем все аргументы и вызываем функцию с заданным контекстом и аргументами              
-      return fn.apply(context, bindArgs.concat(fnArgs));
-    };
-  };
+    <button class="fb">FB live</button>
+    <button class="vk">VK like</button>
 
-  //функция которая суммирует все аргументы и прибавляет к начальной сумме
-  const sum = function () {
-    return [].reduce.call(arguments, function (result, current) {
-      return result + current;
-    }, this.sum);
-  };
+    <button class="reset">Reset Counters</button>
 
-  //метод bind
-  const bindSumNative = sum.bind({ sum: 50 }, 20, 30, 10);
-  console.log(bindSumNative(80,70));
 
-  // проверка работы ручного метода bind
-  const bindedSum = bind(sum, { sum: 50 }, 20, 30, 10); // {sum: 10} => thisArg с которого начинается суммирование
-  console.log(bindedSum(80, 70));
+    <script>
+        'use strict';
+        //1 задание счетчик суммы
+        let counterSum = 0;
 
-  function foo(phrase = 'Hello', symbol) {
-      return `${phrase} ${this.name} ${symbol}`;
-  };
+        function calcSum(num) {
+            return counterSum = counterSum + num;
+        };
 
-  const admin = {
-    name: 'Alex',
-    foo: foo
-  };
- // 2-я проверка ручного bind
-  const baz = bind(foo, admin, 'How are you', '?'); //запуск foo с контекстом admin и новой фразой
-  console.log(baz());
+        console.log(calcSum(3));
+        console.log(calcSum(5));
+        console.log(calcSum(20));
 
-  // 2 задание аналог метода map своими руками
-  const map = function (arr, callback, thisArg) {
-    let results = []; // новый массив для записи элементов после работы функции 
-    let elNew; // новый элемент массива
-    for (let i = 0; i < arr.length; i = i + 1) {
-      elNew = callback.call(thisArg, arr[i], i, arr); //запуск функции для преобразования элемента
-      results.push(elNew); //добавляем новый элемент в массив с помощью push
-    }
-    return results;
-  };
+        // 2 задание функция счетчик     
+ 
+        function makeCounter() {
+            let currentCount = 0; // счетчик значений
+            let count = 0; // счетчик кликов
 
-  const arr = [1, 2, 3, 4, 5];
-  
-  //пример метода map с возведением в степень
-  const arrPowNative = arr.map(function (el, ind) {
-    return Math.pow(el, ind);
-  });
-  console.log(arrPowNative);
+            function counter(initialVal, step) {
+                if (count === 0) {
+                    currentCount = initialVal;
 
-  // пример ручной map с возведением в степень
-  const arrPow = map(arr, function (el, ind) {
-    return Math.pow(el, ind);
-  });
-  console.log(arrPow);
-  
-  // пример ручной map с переводом массива из градусов цельсия в массив по фарингейту
-  const celsius = [-15, -5, 0, 10, 16, 20, 24, 32];
-  const fahrenheit = map(celsius, function (el) {
-    return el * 1.8 + 32;
-  });
+                } else {
+                    currentCount = currentCount + step;
+                }
+                count++;
+                return currentCount;
+            }
+            counter.reset = function () { //добавляем метод сброса счетчика к функции counter
+                currentCount = 0;
+                count = 0;
+            }
 
-  console.log(celsius);
-  console.log(fahrenheit);
+            return counter;
+        }
 
-  
 
-</script>
+        const fbCounter = makeCounter();
+        const vkCounter = makeCounter();
+
+        const fbButton = document.querySelector('.fb')
+            .addEventListener('click', function () {
+                console.log(fbCounter(10, 5), 'facebook counter');
+            });
+
+        const vkButton = document.querySelector('.vk')
+            .addEventListener('click', function () {
+                console.log(vkCounter(1, 1), 'vk counter');
+            });
+
+        const resetButton = document.querySelector('.reset')
+            .addEventListener('click', function () {
+                console.log(fbCounter.reset(), 'reset facebook counter');
+                console.log(vkCounter.reset(), 'reset vk counter');
+
+            });
+
+        // 3 задание числовой палиндром
+        function getPalindrome(num) {
+
+            let numReverse = Number(String(num).split("").reverse().join(""));
+            let sum = num + numReverse;
+            let sumReverse = Number(String(sum).split("").reverse().join(""));
+
+            if (sum === sumReverse) {
+                return `Ура паллиндром ${sum} и ${sumReverse}`;
+            } else {
+                console.log('Не паллиндром', sum, sumReverse);
+                return getPalindrome(sum);
+            }
+
+        };
+
+        console.log(getPalindrome(185));
+
+
+
+    </script>
+
+</body>
