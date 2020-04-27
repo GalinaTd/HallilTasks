@@ -21,15 +21,23 @@
     <script>
         'use strict';
         //1 задание счетчик суммы
-        let counterSum = 0;
-
-        function calcSum(num) {
-            return counterSum = counterSum + num;
+        
+        function calcSum() {
+            let counterSum = 0;
+            return function (num) {           
+                counterSum = counterSum + num; 
+           
+                return counterSum;
+            }
+            
         };
 
-        console.log(calcSum(3));
-        console.log(calcSum(5));
-        console.log(calcSum(20));
+      const counterMy = calcSum();
+
+        console.log(counterMy(3));
+        console.log(counterMy(5));
+        console.log(counterMy(20));
+       
 
         // 2 задание функция счетчик     
  
