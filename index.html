@@ -21,32 +21,32 @@
     <script>
         'use strict';
         //1 задание счетчик суммы
-        
+
         function calcSum() {
             let counterSum = 0;
-            return function (num) {           
-                counterSum += num;            
+            return function (num) {
+                counterSum += num;
                 return counterSum;
-            }            
+            }
         };
 
-      const counterMy = calcSum();
+        const counterMy = calcSum();
 
         console.log(counterMy(3));
         console.log(counterMy(5));
         console.log(counterMy(20));
-       
+
 
         // 2 задание функция счетчик     
- 
+
         function makeCounter(initialVal, step) {
-            let currentCount = initialVal; 
+            let currentCount = initialVal;
             function counter() {
-              
+
                 return currentCount += step;
             }
-            counter.reset = function (val=initialVal) { //сброс счетчика, по умолчанию сброс до initialVal, иначе val
-                currentCount = val;               
+            counter.reset = function (val = initialVal) { //сброс счетчика, по умолчанию сброс до initialVal, иначе val
+                currentCount = val;
             }
 
             return counter;
@@ -76,20 +76,20 @@
         // 3 задание числовой палиндром
         function getPalindrome(num) {
 
-            let numReverse = Number(String(num).split("").reverse().join(""));
-            let sum = num + numReverse;
-            let sumReverse = Number(String(sum).split("").reverse().join(""));
+            const numReverse = Number(String(num).split("").reverse().join(""));
 
-            if (sum === sumReverse) {
-                return `Ура паллиндром ${sum} и ${sumReverse}`;
+            if (num === numReverse) {
+                return `Ура паллиндром ${num} и ${numReverse}`;
             } else {
-                console.log('Не паллиндром', sum, sumReverse);
+                const sum = num + numReverse;
+                console.log(`суммируем..., ${num} + ${numReverse} = ${sum}`);
                 return getPalindrome(sum);
+                
             }
-
         };
 
-        console.log(getPalindrome(185));
+       
+        console.log(getPalindrome(96));
 
 
 
