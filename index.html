@@ -25,11 +25,9 @@
         function calcSum() {
             let counterSum = 0;
             return function (num) {           
-                counterSum = counterSum + num; 
-           
+                counterSum += num;            
                 return counterSum;
-            }
-            
+            }            
         };
 
       const counterMy = calcSum();
@@ -41,45 +39,36 @@
 
         // 2 задание функция счетчик     
  
-        function makeCounter() {
-            let currentCount = 0; // счетчик значений
-            let count = 0; // счетчик кликов
-
-            function counter(initialVal, step) {
-                if (count === 0) {
-                    currentCount = initialVal;
-
-                } else {
-                    currentCount = currentCount + step;
-                }
-                count++;
-                return currentCount;
+        function makeCounter(initialVal, step) {
+            let currentCount = initialVal; 
+            function counter() {
+              
+                return currentCount += step;
             }
-            counter.reset = function () { //добавляем метод сброса счетчика к функции counter
-                currentCount = 0;
-                count = 0;
+            counter.reset = function (val=initialVal) { //сброс счетчика, по умолчанию сброс до initialVal, иначе val
+                currentCount = val;               
             }
 
             return counter;
         }
 
 
-        const fbCounter = makeCounter();
-        const vkCounter = makeCounter();
+        const fbCounter = makeCounter(10, 5);
+        const vkCounter = makeCounter(0, 1);
 
         const fbButton = document.querySelector('.fb')
             .addEventListener('click', function () {
-                console.log(fbCounter(10, 5), 'facebook counter');
+                console.log(fbCounter(), 'facebook counter');
             });
 
         const vkButton = document.querySelector('.vk')
             .addEventListener('click', function () {
-                console.log(vkCounter(1, 1), 'vk counter');
+                console.log(vkCounter(), 'vk counter');
             });
 
         const resetButton = document.querySelector('.reset')
             .addEventListener('click', function () {
-                console.log(fbCounter.reset(), 'reset facebook counter');
+                console.log(fbCounter.reset(0), 'reset facebook counter');
                 console.log(vkCounter.reset(), 'reset vk counter');
 
             });
