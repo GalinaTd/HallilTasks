@@ -3,132 +3,136 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Lesson19</title>
+    <title>Lesson21</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 </head>
 
 <style type="text/css">
-    h2 {
-        color: Gold;
-        background-color: DarkRed;
-        width: 300px;
-    }
-
-    .list-item {
-        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-        font-size: 18px;
-        /*font-weight: bold;*/
-    }
-
-    .list-item.active {
-        color: blue;
-    }
-
-    .list2 {
-        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-        font-size: 16px;        
-        display: none;
-    }
-
-    div {
-        background-color: lightgrey;
-        width: 250px;
-        margin-left: -30px;
-    }
 </style>
 
 <body>
-    
-        <h2>Star Wars. List of films</h2>
-        <ul class="list"></ul>
- 
     <script>
         'use strict';
+        
+        function Student(firstName, lastName, yearBirth) {
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.yearBirth = yearBirth;
+            this.attendance = [
+                null, null, null, null, null,
+                null, null, null, null, null,
+                null, null, null, null, null,
+                null, null, null, null, null,
+                null, null, null, null, null,
+            ];
+            this.score = [];
 
-        const list = document.querySelector('.list');
+        }
 
-        function getSWFilms() {
-            return fetch('https://swapi.dev/api/films/', {
-                method: 'GET'
+        Student.prototype.showFullName = function () {
+            return `${this.firstName} ${this.lastName}`;
+        }
+        // метод фикс присутствие на занятии
+        Student.prototype.presence = function () {
+            const indNull = this.attendance.indexOf(null);
+
+            if (indNull !== -1) {
+                this.attendance[indNull] = true;
+            } else {
+                console.log('в массиве нет места');
+            }
+            return this.attendance;
+        }
+        // метод фикс прогул
+        Student.prototype.absent = function () {
+            const indNull = this.attendance.indexOf(null);
+
+            if (indNull !== -1) {
+                this.attendance[indNull] = false;
+            } else {
+                console.log('в массиве нет места');
+            }
+            return this.attendance;
+        }
+        // добавление оценки в массив оценок
+        Student.prototype.addScore = function (newScore) {
+            return this.score.push(newScore);
+        }
+        
+        // расчет возраста
+        Student.prototype.calcAge = function () {
+            const d = new Date();
+            const curYear = d.getFullYear();
+            return curYear - this.yearBirth;
+        }
+
+        // расчет среднего балла студента
+        Student.prototype.avgScore = function () {
+            let sum = 0;
+            this.score.reduce(function (prvValue, curVal, ind) {
+                sum = prvValue + curVal;
+                return sum
             })
-                .then(function (response) {
-                    return response.json();
-                })
-        };
-
-        function getSWShip(url) {
-            return fetch(url, {
-                method: 'GET'
-            })
-                .then(function (response) {
-                    return response.json();
-                })
-
-        };
-
-        getSWFilms()
-            .then(function (data) {
-                data.results.forEach(function (film, index) {
-
-                    const li = document.createElement('li');
-                    li.innerHTML = `${film.title} (${film.release_date.substring(0, 4)})`;
-                    li.setAttribute('class', 'list-item');
-                    list.append(li);
-
-
-                    const list2 = document.createElement('ul');
-                    list2.setAttribute('class', 'list2');
-
-                    const div = document.createElement('div');
-                    div.textContent = 'List of starships:';
-                    list2.append(div);
-
-                    const li2 = document.createElement('li');
-                    for (let i = 0; i < film.starships.length; i++) {
-
-                        const li2 = document.createElement('li');
-                        let nameShip = getSWShip(film.starships[i])
-                            .then(function (data) {
-                                for (let key in data) {
-                                    if (key === 'name') {
-                                        li2.innerHTML = data[key];
-                                    }
-                                }
-
-                            })
-
-                        li2.innerHTML = name.nameShip;
-                        li2.setAttribute('class', 'list2-item__content');
-
-                        list.append(list2);
-                        list2.append(li2);
-                    }
-
-                })
-
+            return sum / this.score.length;
+        }
+        // расчет 
+        Student.prototype.summary = function () {
+            let sumPresence = 0;
+            this.attendance.forEach(function (el) {
+                if (el === true) {
+                    sumPresence++;
+                }
             })
 
-       
-        $('.list').on('click', '.list-item', function () {
+            const avgAttendance = sumPresence / this.attendance.length;
+            const avgScore = this.avgScore();
+            if (avgAttendance > 0.9 && avgScore > 90) {
+                return `${avgAttendance} ${avgScore} Ух ты какой молодчинка!`;
+            } else if (avgAttendance > 0.9 || avgScore > 90) {
+                return `${avgAttendance} ${avgScore} Норм, но можно лучше`;
+            } else {
+                return `${avgAttendance} ${avgScore} Редиска!`;
+            }
 
-            $('.list-item').removeClass('active');
-
-            $('.list2').not($(this)
-                .next())
-                .slideUp(1000);
-
-            $(this).addClass('active')
-                .next()
-                .slideToggle(1000);
-        })
+        }
 
 
+        const student1 = new Student('Natali', 'Petrova', 2000);
+        const student2 = new Student('Ivan', 'Popov', 2003);
+        
+        // заполнение массивов для теста
+        for (let i = 0; i <= 24; i++) {
+            if (i % 5 === 0) {
+                student1.absent(); //прогул 
+                student2.presence(); //был на занятии               
+            } else {
+                student1.presence(); //был на занятии
+                student2.absent(); //прогул 
+                if (i % 2 === 0) {
+                    student1.addScore(100); // добавление оценки
+                    student2.addScore(50);
+                } else {
+                    student1.addScore(90);
+                    student2.addScore(70);
+                }
+            }
+        }
 
-
-
+        console.log(student1);
+        console.log('Возраст студента -' + student1.calcAge());
+        console.log(student1.score);
+        console.log(student1.showFullName() + ' cредний балл - ' + student1.avgScore());
+        console.log(student1.attendance);
+        console.log(student1.summary());
+        
+        console.log(student2);
+        console.log('Возраст студента -' + student2.calcAge());
+        console.log(student2.score);
+        console.log(student2.showFullName() + ' cредний балл - ' + student2.avgScore());
+        console.log(student2.attendance);
+        console.log(student2.summary());
 
 
 
     </script>
-
 </body>
