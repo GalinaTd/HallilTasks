@@ -13,18 +13,12 @@
 <body>
     <script>
         'use strict';
-        
+
         function Student(firstName, lastName, yearBirth) {
             this.firstName = firstName;
             this.lastName = lastName;
             this.yearBirth = yearBirth;
-            this.attendance = [
-                null, null, null, null, null,
-                null, null, null, null, null,
-                null, null, null, null, null,
-                null, null, null, null, null,
-                null, null, null, null, null,
-            ];
+            this.attendance = new Array(25);// заполн undefined для перебора for of или for           
             this.score = [];
 
         }
@@ -34,31 +28,31 @@
         }
         // метод фикс присутствие на занятии
         Student.prototype.presence = function () {
-            const indNull = this.attendance.indexOf(null);
-
-            if (indNull !== -1) {
-                this.attendance[indNull] = true;
-            } else {
-                console.log('в массиве нет места');
-            }
-            return this.attendance;
+            for (let i = 0; i < this.attendance.length; i++) {
+                if (this.attendance[i] === undefined) {
+                    this.attendance[i] = true; 
+                    return this.attendance;                  
+                } 
+                
+            }           
+            return 'в массиве не места'; 
         }
         // метод фикс прогул
         Student.prototype.absent = function () {
-            const indNull = this.attendance.indexOf(null);
-
-            if (indNull !== -1) {
-                this.attendance[indNull] = false;
-            } else {
-                console.log('в массиве нет места');
+            for (let i = 0; i < this.attendance.length; i++) {
+                if (this.attendance[i] === undefined) {
+                    this.attendance[i] = false;                  
+                    return this.attendance;            
+                }
+                
             }
-            return this.attendance;
+            return 'в массиве не места';    
         }
         // добавление оценки в массив оценок
         Student.prototype.addScore = function (newScore) {
             return this.score.push(newScore);
         }
-        
+
         // расчет возраста
         Student.prototype.calcAge = function () {
             const d = new Date();
@@ -99,11 +93,11 @@
 
         const student1 = new Student('Natali', 'Petrova', 2000);
         const student2 = new Student('Ivan', 'Popov', 2003);
-        
+
         // заполнение массивов для теста
         for (let i = 0; i <= 24; i++) {
             if (i % 5 === 0) {
-                student1.absent(); //прогул 
+                student1.absent(); //прогул                 
                 student2.presence(); //был на занятии               
             } else {
                 student1.presence(); //был на занятии
@@ -124,7 +118,7 @@
         console.log(student1.showFullName() + ' cредний балл - ' + student1.avgScore());
         console.log(student1.attendance);
         console.log(student1.summary());
-        
+
         console.log(student2);
         console.log('Возраст студента -' + student2.calcAge());
         console.log(student2.score);
