@@ -3,130 +3,141 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Lesson21</title>
+    <title>Lesson22</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 </head>
 
 <style type="text/css">
+    .tasks-list {
+        margin-top: 20px;
+    }
+
+    .task-container {
+        width: 500px;
+        border: 1px solid #000;
+        display: table;
+        margin-top: 10px;
+        background-color: whitesmoke;
+    }
+
+    .task-text {
+        width: 250px;
+        margin: 30px;
+        word-wrap: break-word;
+        float: left;
+    }
+
+    span {
+        width: 200px;
+    }
+
+    .text-decor {
+        text-decoration: line-through;
+    }
+
+    .btn1 {
+        width: 50px;
+        margin-left: 30px;
+        border-color: cornflowerblue;
+        float: left;
+        margin-top: 25px;
+        font-weight: bold;
+        border-radius: 5px;
+    }   
+
+    .btn2 {
+        width: 50px;
+        margin-left: 30px;
+        border-color: crimson;
+        float: left;
+        margin-top: 25px;
+        font-weight: bold;
+        border-radius: 5px;
+    }
 </style>
 
 <body>
+    <form>
+        <h3>ToDo list</h3>
+
+        <input name="task" placeholder="наименование задачи" size="55"></input>
+        <button type="submit">Добавить</button>
+
+    </form>
+
+    <div class="tasks-list"></div>
+
     <script>
         'use strict';
 
-        function Student(firstName, lastName, yearBirth) {
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.yearBirth = yearBirth;
-            this.attendance = new Array(25);// заполн undefined для перебора for of или for           
-            this.score = [];
+        if (localStorage.storedTasks) {
+            printTasks(JSON.parse(localStorage.storedTasks))
+        };
 
-        }
+        document.forms[0].addEventListener('submit', (e) => {
+            e.preventDefault(); //остановка отправки на сервер
 
-        Student.prototype.showFullName = function () {
-            return `${this.firstName} ${this.lastName}`;
-        }
-        // метод фикс присутствие на занятии
-        Student.prototype.presence = function () {
-            for (let i = 0; i < this.attendance.length; i++) {
-                if (this.attendance[i] === undefined) {
-                    this.attendance[i] = true; 
-                    return this.attendance;                  
-                } 
-                
-            }           
-            return 'в массиве не места'; 
-        }
-        // метод фикс прогул
-        Student.prototype.absent = function () {
-            for (let i = 0; i < this.attendance.length; i++) {
-                if (this.attendance[i] === undefined) {
-                    this.attendance[i] = false;                  
-                    return this.attendance;            
-                }
-                
-            }
-            return 'в массиве не места';    
-        }
-        // добавление оценки в массив оценок
-        Student.prototype.addScore = function (newScore) {
-            return this.score.push(newScore);
-        }
+            const tasks = localStorage.storedTasks ? JSON.parse(localStorage.storedTasks) : [];
+            const task = e.target.elements.task.value;
 
-        // расчет возраста
-        Student.prototype.calcAge = function () {
-            const d = new Date();
-            const curYear = d.getFullYear();
-            return curYear - this.yearBirth;
-        }
-
-        // расчет среднего балла студента
-        Student.prototype.avgScore = function () {
-            let sum = 0;
-            this.score.reduce(function (prvValue, curVal, ind) {
-                sum = prvValue + curVal;
-                return sum
+            tasks.push({
+                id: + new (Date),
+                task: task,
+                status: false
             })
-            return sum / this.score.length;
-        }
-        // расчет 
-        Student.prototype.summary = function () {
-            let sumPresence = 0;
-            this.attendance.forEach(function (el) {
-                if (el === true) {
-                    sumPresence++;
-                }
-            })
+            localStorage.storedTasks = JSON.stringify(tasks);
+            printTasks(tasks);
+            e.target.reset();
+        })
 
-            const avgAttendance = sumPresence / this.attendance.length;
-            const avgScore = this.avgScore();
-            if (avgAttendance > 0.9 && avgScore > 90) {
-                return `${avgAttendance} ${avgScore} Ух ты какой молодчинка!`;
-            } else if (avgAttendance > 0.9 || avgScore > 90) {
-                return `${avgAttendance} ${avgScore} Норм, но можно лучше`;
-            } else {
-                return `${avgAttendance} ${avgScore} Редиска!`;
-            }
-
-        }
-
-
-        const student1 = new Student('Natali', 'Petrova', 2000);
-        const student2 = new Student('Ivan', 'Popov', 2003);
-
-        // заполнение массивов для теста
-        for (let i = 0; i <= 24; i++) {
-            if (i % 5 === 0) {
-                student1.absent(); //прогул                 
-                student2.presence(); //был на занятии               
-            } else {
-                student1.presence(); //был на занятии
-                student2.absent(); //прогул 
-                if (i % 2 === 0) {
-                    student1.addScore(100); // добавление оценки
-                    student2.addScore(50);
+        function printTasks(tasks) {
+            let taskList = '';
+            tasks.forEach(({ id, task, status }) => {
+                taskList += `<div class="task-container">`;
+                taskList += `<div class="task-text">`;
+                if (status) {
+                    taskList += `<span class="text-decor">${task}</span></div>`
                 } else {
-                    student1.addScore(90);
-                    student2.addScore(70);
+                    taskList += `<span>${task}</span></div>`
                 }
-            }
+                taskList += `<button id="${id}" type="button" class="btn1" data-action="changeStatus" title="изменить статус">
+                +</button>
+                <button id="${id}" type="button" class="btn2" data-action="deleteTask" title="удалить задачу">-</button>`
+                taskList += '</div>';
+            })
+
+            document.querySelector('.tasks-list').innerHTML = taskList;
         }
 
-        console.log(student1);
-        console.log('Возраст студента -' + student1.calcAge());
-        console.log(student1.score);
-        console.log(student1.showFullName() + ' cредний балл - ' + student1.avgScore());
-        console.log(student1.attendance);
-        console.log(student1.summary());
+        // обработка кликов на кнопки внутри списка задач
+        const tasksList = document.querySelector('.tasks-list');
 
-        console.log(student2);
-        console.log('Возраст студента -' + student2.calcAge());
-        console.log(student2.score);
-        console.log(student2.showFullName() + ' cредний балл - ' + student2.avgScore());
-        console.log(student2.attendance);
-        console.log(student2.summary());
+        tasksList.addEventListener('click', (e) => {
+            const tasksIn = JSON.parse(localStorage.storedTasks);
 
+            tasksIn.forEach((el, ind) => {
+                //console.log(el, ind);           
+                if (el.id === +e.target.id) {
+                    if (e.target.dataset.action === 'changeStatus') {
+                        if (el.status) {
+                            el.status = false;
+                        } else {
+                            el.status = true;
+                        }
+
+                    } else if (e.target.dataset.action === 'deleteTask') {
+                        tasksIn.splice(ind, 1);
+                    }
+                }
+            })
+
+            localStorage.storedTasks = JSON.stringify(tasksIn);
+            printTasks(tasksIn);
+
+        })
 
 
     </script>
+
+
 </body>
