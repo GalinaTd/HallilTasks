@@ -78,7 +78,7 @@
             const task = e.target.elements.task.value;
 
             tasks.push({
-                id: + new (Date),
+                id: Date.now(),
                 task: task,
                 status: false
             })
@@ -92,11 +92,15 @@
             tasks.forEach(({ id, task, status }) => {
                 taskList += `<div class="task-container">`;
                 taskList += `<div class="task-text">`;
+
                 if (status) {
+                    //span.setAttribute('class', 'text-decor');
                     taskList += `<span class="text-decor">${task}</span></div>`
                 } else {
                     taskList += `<span>${task}</span></div>`
+                    //span.removeAttribute('class', 'text-decor');
                 }
+
                 taskList += `<button id="${id}" type="button" class="btn1" data-action="changeStatus" title="изменить статус">
                 +</button>
                 <button id="${id}" type="button" class="btn2" data-action="deleteTask" title="удалить задачу">-</button>`
@@ -115,21 +119,28 @@
             tasksIn.forEach((el, ind) => {
                 //console.log(el, ind);           
                 if (el.id === +e.target.id) {
+
                     if (e.target.dataset.action === 'changeStatus') {
+
+                        e.target.closest('.task-container')
+                            .querySelector('.task-text > span') // потомок от task-text
+                            .classList.toggle('text-decor'); //добавляем или убираем зачеркивание
+
                         if (el.status) {
                             el.status = false;
                         } else {
                             el.status = true;
                         }
-
+                        localStorage.storedTasks = JSON.stringify(tasksIn);
                     } else if (e.target.dataset.action === 'deleteTask') {
                         tasksIn.splice(ind, 1);
+                        localStorage.storedTasks = JSON.stringify(tasksIn);
+                        printTasks(tasksIn);
                     }
                 }
             })
 
-            localStorage.storedTasks = JSON.stringify(tasksIn);
-            printTasks(tasksIn);
+
 
         })
 
