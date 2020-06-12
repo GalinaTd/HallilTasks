@@ -1,0 +1,108 @@
+<div class="modal fade" id="addNewModal" tabindex="-1" role="dialog" aria-labelledby="addNewModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <form name="modalform" class="w-75 mx-auto">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Добавить новый фильм</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <div class="form-group">
+            <label>Название фильма:</label>
+            <input name="title" type="text" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Оригинальное название фильма:</label>
+            <input name="origtitle" type="text" class="form-control">
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="upload-poster-addon">Постер</span>
+            </div>
+            <div class="custom-file">
+              <input name="poster" type="file" class="custom-file-input" id="upload-poster"
+                aria-describedby="upload-poster-addon">
+              <label class="custom-file-label" for="upload-poster">Выберите файл</label>
+              <br>
+              <img src="" height="200" alt="Image preview...">
+              <span id="datafile" hidden></span>
+            </div>
+          </div>
+          <fieldset name="infodetal" class="form-group">
+            <legend class="col-form-label pt-0">Детальная информация:</legend>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Год:</label>
+              <div class="col-sm-10">
+                <input name="releaseyear" type="text" class="form-control">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Страна:</label>
+              <div class="col-sm-10">
+                <input name="country" type="text" class="form-control">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Слоган:</label>
+              <div class="col-sm-10">
+                <input name="tagline" type="text" class="form-control">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Режиссер:</label>
+              <div class="col-sm-8">
+                <input name="director" type="text" class="form-control">
+              </div>
+              <div class="col-sm-2">
+                <button class="btn btn-primary btn-add-field" type="button"><svg
+                    class="octicon octicon-plus" viewBox="0 0 12 16" version="1.1" width="12" height="16"
+                    aria-hidden="true">
+                    <path fill-rule="evenodd" d="M12 9H7v5H5V9H0V7h5V2h2v5h5v2z"></path>
+                  </svg></button>
+              </div>
+            </div>
+            <div class="teamlist">
+            <div id="ban" class="form-group row">
+              <div class="col-sm-5">
+                <input name="teampost" type="text" class="form-control" placeholder="Должность">
+              </div>
+              <div class="col-sm-5">
+                <input name="teamname" type="text" class="form-control" placeholder="Имя">
+              </div>
+              <div class="col-sm-2">
+                <button class="btn btn-danger btn-sm btn-remove-field" type="button"><svg class="octicon octicon-x"
+                    viewBox="0 0 14 18" version="1.1" width="14" height="18" aria-hidden="true">
+                    <path fill-rule="evenodd"
+                      d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z">
+                    </path>
+                  </svg></button>
+              </div>
+            </div>
+           </div> 
+          </fieldset>
+          <div class="form-group">
+            <label>В ролях:</label>
+            <textarea name="stars" class="form-control" rows="3"></textarea>
+            <small class="form-text text-muted">Укажите актеров через запятую.</small>
+          </div>
+          <div class="form-group">
+            <label>Рейтинг IMDB:</label>
+            <input name="rating" type="text" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Описание:</label>
+            <textarea name="description" class="form-control" rows="3"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Отменить</button>
+          <button type="submit" class="btn btn-primary mr-3">Сохранить</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
