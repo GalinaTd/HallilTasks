@@ -184,7 +184,7 @@ function getListFilms(queryTxt) {
 
             });
 
-            mainContent.innerHTML = htmlText;
+            mainContent.innerHTML = htmlText;            
 
             const cardFilms = document.querySelectorAll('.mt-3');
             cardFilms.forEach((el, ind) => {
@@ -201,6 +201,7 @@ function getListFilms(queryTxt) {
             })
 
         })
+        .catch(error => alert('В Local Storage нет фильмов'));
 };
 
 //загрузка информации в модалку при корректировке фильма
